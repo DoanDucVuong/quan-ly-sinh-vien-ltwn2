@@ -12,13 +12,13 @@ public class StudentClasseSection {
 
     @Id
     @UuidGenerator
-    @Column(name = "id", columnDefinition = "UNIQUEIDENTIFIER", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "student_id", columnDefinition = "UNIQUEIDENTIFIER", nullable = false)
+    @Column(name = "student_id", nullable = false)
     private UUID studentId;
 
-    @Column(name = "student_classe_id", columnDefinition = "UNIQUEIDENTIFIER", nullable = false)
+    @Column(name = "student_classe_id", nullable = false)
     private UUID studentClasseId;
 
     @Column(name = "status", length = 50)
@@ -39,16 +39,16 @@ public class StudentClasseSection {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "created_by", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "created_by")
     private UUID createdBy;
 
-    @Column(name = "updated_by", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "updated_by")
     private UUID updatedBy;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @Column(name = "deleted_by", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "deleted_by")
     private UUID deletedBy;
 
     @Column(name = "is_active")

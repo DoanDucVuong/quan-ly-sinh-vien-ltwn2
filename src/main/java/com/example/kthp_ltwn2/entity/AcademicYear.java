@@ -12,7 +12,7 @@ public class AcademicYear {
 
     @Id
     @UuidGenerator
-    @Column(name = "id", columnDefinition = "UNIQUEIDENTIFIER", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "code", length = 50, nullable = false, unique = true)

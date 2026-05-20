@@ -12,7 +12,7 @@ public class TrainingProgram {
 
     @Id
     @UuidGenerator
-    @Column(name = "id", columnDefinition = "UNIQUEIDENTIFIER", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "code", length = 50, nullable = false, unique = true)
@@ -21,7 +21,7 @@ public class TrainingProgram {
     @Column(name = "name", length = 255, nullable = false)
     private String name;
 
-    @Column(name = "major_id", columnDefinition = "UNIQUEIDENTIFIER", nullable = false)
+    @Column(name = "major_id", nullable = false)
     private UUID majorId;
 
     @Column(name = "degree_level", length = 100)

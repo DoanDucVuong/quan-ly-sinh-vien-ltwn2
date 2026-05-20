@@ -13,7 +13,7 @@ public class Student {
 
     @Id
     @UuidGenerator
-    @Column(name = "id", columnDefinition = "UNIQUEIDENTIFIER", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "code", length = 100, unique = true)
@@ -43,22 +43,22 @@ public class Student {
     @Column(name = "current_address", length = 300)
     private String currentAddress;
 
-    @Column(name = "academic_year_year", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "academic_year_year")
     private UUID academicYearYear;
 
-    @Column(name = "department_id", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "department_id")
     private UUID departmentId;
 
-    @Column(name = "major_id", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "major_id")
     private UUID majorId;
 
-    @Column(name = "training_program_id", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "training_program_id")
     private UUID trainingProgramId;
 
     @Column(name = "status", length = 50)
     private String status;
 
-    @Column(name = "student_classe_id", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "student_classe_id")
     private UUID studentClasseId;
 
     @Column(name = "admission_year")
@@ -70,16 +70,16 @@ public class Student {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "created_by", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "created_by")
     private UUID createdBy;
 
-    @Column(name = "updated_by", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "updated_by")
     private UUID updatedBy;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @Column(name = "deleted_by", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "deleted_by")
     private UUID deletedBy;
 
     // Boolean field: @Data tạo getIsActive() (không phải isIsActive())

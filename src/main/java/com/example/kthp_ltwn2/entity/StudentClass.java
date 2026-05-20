@@ -12,7 +12,7 @@ public class StudentClass {
 
     @Id
     @UuidGenerator
-    @Column(name = "id", columnDefinition = "UNIQUEIDENTIFIER", updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "code", length = 100)
@@ -21,19 +21,19 @@ public class StudentClass {
     @Column(name = "name", length = 255)
     private String name;
 
-    @Column(name = "academic_year_id", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "academic_year_id")
     private UUID academicYearId;
 
-    @Column(name = "department_id", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "department_id")
     private UUID departmentId;
 
-    @Column(name = "major_id", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "major_id")
     private UUID majorId;
 
-    @Column(name = "training_program_id", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "training_program_id")
     private UUID trainingProgramId;
 
-    @Column(name = "employee_id", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "employee_id")
     private UUID employeeId;
 
     @Column(name = "created_at")
@@ -42,16 +42,16 @@ public class StudentClass {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "created_by", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "created_by")
     private UUID createdBy;
 
-    @Column(name = "updated_by", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "updated_by")
     private UUID updatedBy;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
-    @Column(name = "deleted_by", columnDefinition = "UNIQUEIDENTIFIER")
+    @Column(name = "deleted_by")
     private UUID deletedBy;
 
     @Column(name = "is_active")

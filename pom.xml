@@ -50,6 +50,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- PostgreSQL JDBC Driver (for Render.com cloud deployment) -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
 		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
