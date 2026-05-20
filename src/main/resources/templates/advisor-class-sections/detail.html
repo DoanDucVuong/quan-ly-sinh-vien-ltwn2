@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout('Chi tiết phân công cố vấn', 'advisors', ~{:: .main-layout})}">
+<body>
+<div class="main-layout">
+<div style="width:100%;max-width:900px;">
+
+  <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.5rem;font-size:0.85rem;color:#9ca3af;">
+    <a href="/advisor-class-sections" style="color:#6366f1;text-decoration:none;font-weight:600;">Cố vấn lớp hành chính</a>
+    <i class="bi bi-chevron-right" style="font-size:0.7rem;"></i>
+    <span th:text="${advisor.employeeName ?: 'Chi tiết'}">Chi tiết</span>
+  </div>
+
+  <!-- Hero Card -->
+  <div style="background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 50%,#4f46e5 100%);border-radius:20px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 8px 30px rgba(99,102,241,0.3);position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-30px;right:-30px;width:180px;height:180px;background:rgba(255,255,255,0.07);border-radius:50%;"></div>
+    <div style="display:flex;align-items:center;gap:1.5rem;position:relative;z-index:1;">
+      <div style="width:80px;height:80px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;flex-shrink:0;background:rgba(255,255,255,0.2);border:3px solid rgba(255,255,255,0.3);">
+        👨‍🏫
+      </div>
+      <div style="flex:1;">
+        <div th:text="${advisor.employeeName ?: 'Không rõ cố vấn'}" style="font-size:1.6rem;font-weight:800;color:#fff;"></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.4rem;">
+          <span th:text="${advisor.employeeId ?: '—'}" style="background:rgba(255,255,255,0.2);color:#fff;padding:3px 12px;border-radius:20px;font-family:monospace;font-weight:700;font-size:0.9rem;"></span>
+          <span th:text="${advisor.studentClasseCode ?: '—'}" style="background:rgba(255,255,255,0.9);color:#6366f1;padding:3px 12px;border-radius:20px;font-size:0.8rem;font-weight:700;"></span>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.75rem;">
+        <a th:href="@{/advisor-class-sections/{id}/edit(id=${advisor.id})}"
+           style="display:flex;align-items:center;gap:0.5rem;padding:0.65rem 1.25rem;background:rgba(255,255,255,0.2);color:#fff;border:1.5px solid rgba(255,255,255,0.4);border-radius:10px;text-decoration:none;font-weight:700;font-size:0.875rem;backdrop-filter:blur(4px);"
+           onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+          <i class="bi bi-pencil-square"></i> Cập nhật
+        </a>
+        <a href="/advisor-class-sections"
+           style="display:flex;align-items:center;gap:0.5rem;padding:0.65rem 1.25rem;background:rgba(0,0,0,0.15);color:rgba(255,255,255,0.85);border:1.5px solid rgba(255,255,255,0.2);border-radius:10px;text-decoration:none;font-weight:600;font-size:0.875rem;"
+           onmouseover="this.style.background='rgba(0,0,0,0.25)'" onmouseout="this.style.background='rgba(0,0,0,0.15)'">
+          <i class="bi bi-arrow-left"></i> Danh sách
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Grid -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;">
+    <!-- Thông tin cố vấn -->
+    <div style="background:#fff;border-radius:16px;border:1px solid #f0f0f0;overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,0.04);">
+      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:0.65rem;background:linear-gradient(90deg,#f5f3ff,#ede9fe);">
+        <div style="width:32px;height:32px;background:linear-gradient(135deg,#ede9fe,#ddd6fe);color:#7c3aed;border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-person-badge"></i></div>
+        <span style="font-weight:700;font-size:0.9rem;color:#111827;">Chi tiết phân công</span>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:0.85rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid #f9fafb;">
+          <span style="font-size:0.82rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.04em;">Mã giảng viên</span>
+          <span th:text="${advisor.employeeId ?: '—'}" style="font-family:monospace;font-weight:700;color:#4f46e5;background:#f5f3ff;padding:3px 10px;border-radius:6px;font-size:0.85rem;"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid #f9fafb;">
+          <span style="font-size:0.82rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.04em;">Họ tên GV</span>
+          <span th:text="${advisor.employeeName ?: '—'}" style="font-weight:700;color:#111827;"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid #f9fafb;">
+          <span style="font-size:0.82rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.04em;">Lớp hành chính</span>
+          <span th:text="${advisor.studentClasseCode ?: '—'}" style="font-weight:700;color:#111827;"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid #f9fafb;">
+          <span style="font-size:0.82rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.04em;">Ngày bắt đầu</span>
+          <div style="display:flex;align-items:center;gap:0.4rem;font-weight:600;color:#059669;">
+            <i class="bi bi-calendar-check"></i>
+            <span th:text="${advisor.startDate != null ? #temporals.format(advisor.startDate, 'dd/MM/yyyy') : '—'}"></span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;">
+          <span style="font-size:0.82rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.04em;">Ngày kết thúc</span>
+          <div style="display:flex;align-items:center;gap:0.4rem;font-weight:600;color:#dc2626;">
+            <i class="bi bi-calendar-x"></i>
+            <span th:text="${advisor.endDate != null ? #temporals.format(advisor.endDate, 'dd/MM/yyyy') : '—'}"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mô tả & Lý do -->
+    <div style="background:#fff;border-radius:16px;border:1px solid #f0f0f0;overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,0.04);">
+      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:0.65rem;background:linear-gradient(90deg,#fffbeb,#fffbeb);">
+        <div style="width:32px;height:32px;background:linear-gradient(135deg,#fffbeb,#fef3c7);color:#d97706;border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-chat-left-text"></i></div>
+        <span style="font-weight:700;font-size:0.9rem;color:#111827;">Mô tả & Lý do</span>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:0.85rem;">
+        <div>
+          <span style="font-size:0.75rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.04em;display:block;margin-bottom:0.25rem;">Lý do phân công</span>
+          <div th:text="${advisor.reason ?: 'Không có lý do cụ thể'}" style="color:#374151;font-size:0.875rem;line-height:1.5;background:#fafafa;padding:0.75rem;border-radius:10px;border:1px solid #f3f4f6;"></div>
+        </div>
+        <div>
+          <span style="font-size:0.75rem;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.04em;display:block;margin-bottom:0.25rem;">Ghi chú chi tiết</span>
+          <div th:text="${advisor.description ?: 'Không có ghi chú thêm'}" style="color:#374151;font-size:0.875rem;line-height:1.5;background:#fafafa;padding:0.75rem;border-radius:10px;border:1px solid #f3f4f6;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hệ thống -->
+    <div style="background:#fff;border-radius:16px;border:1px solid #f0f0f0;overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,0.04);grid-column:span 2;">
+      <div style="padding:1rem 1.25rem;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;gap:0.65rem;background:linear-gradient(90deg,#fafafa,#f3f4f6);">
+        <div style="width:32px;height:32px;background:#f3f4f6;color:#6b7280;border-radius:8px;display:flex;align-items:center;justify-content:center;"><i class="bi bi-clock-history"></i></div>
+        <span style="font-weight:700;font-size:0.9rem;color:#111827;">Thông tin hệ thống</span>
+      </div>
+      <div style="padding:1.25rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;">
+        <div>
+          <div style="font-size:0.78rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.35rem;">Ngày phân công</div>
+          <div th:text="${advisor.createdAt != null ? #temporals.format(advisor.createdAt,'dd/MM/yyyy HH:mm') : '—'}" style="color:#374151;font-size:0.875rem;font-weight:600;"></div>
+        </div>
+        <div>
+          <div style="font-size:0.78rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.35rem;">Ngày cập nhật sau cùng</div>
+          <div th:text="${advisor.updatedAt != null ? #temporals.format(advisor.updatedAt,'dd/MM/yyyy HH:mm') : '—'}" style="color:#374151;font-size:0.875rem;font-weight:600;"></div>
+        </div>
+        <div>
+          <div style="font-size:0.78rem;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.35rem;">Trạng thái phân công</div>
+          <span th:if="${advisor.isActive}" style="padding:3px 12px;border-radius:20px;font-size:0.75rem;font-weight:700;background:#f0fdf4;color:#15803d;border:1.5px solid #bbf7d0;">Hoạt động</span>
+          <span th:unless="${advisor.isActive}" style="padding:3px 12px;border-radius:20px;font-size:0.75rem;font-weight:700;background:#fef2f2;color:#dc2626;border:1.5px solid #fecaca;">Ngừng phân công</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Danger Zone -->
+  <div style="background:#fff;border-radius:16px;border:1.5px solid #fee2e2;padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(220,38,38,0.05);">
+    <div>
+      <div style="font-weight:700;color:#111827;font-size:0.9rem;">Vùng nguy hiểm</div>
+      <div style="font-size:0.8rem;color:#9ca3af;margin-top:2px;">Hành động này không thể hoàn tác</div>
+    </div>
+    <button type="button" onclick="document.getElementById('delModal').style.display='flex'"
+            style="display:flex;align-items:center;gap:0.5rem;padding:0.65rem 1.25rem;background:#fef2f2;color:#dc2626;border:1.5px solid #fecaca;border-radius:10px;font-weight:700;font-size:0.875rem;cursor:pointer;"
+            onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'">
+      <i class="bi bi-trash3"></i> Xóa phân công này
+    </button>
+  </div>
+</div>
+
+<div id="delModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:2rem;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:slideUp 0.25s ease;">
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="width:64px;height:64px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;color:#dc2626;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+      <h3 style="font-size:1.2rem;font-weight:700;color:#111827;margin-bottom:0.5rem;">Xác nhận xóa</h3>
+      <p style="color:#6b7280;">Bạn có chắc chắn muốn xóa bản phân công này?</p>
+    </div>
+    <div style="display:flex;gap:0.75rem;">
+      <button onclick="document.getElementById('delModal').style.display='none'" style="flex:1;padding:0.75rem;border-radius:10px;border:1.5px solid #e5e7eb;background:#fff;color:#374151;font-weight:600;cursor:pointer;">Hủy bỏ</button>
+      <form th:action="@{/advisor-class-sections/{id}/delete(id=${advisor.id})}" method="post" style="flex:1;">
+        <button type="submit" style="width:100%;padding:0.75rem;border-radius:10px;background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;font-weight:700;border:none;cursor:pointer;"><i class="bi bi-trash3"></i> Xóa</button>
+      </form>
+    </div>
+  </div>
+</div>
+<style>@keyframes slideUp{from{opacity:0;transform:translateY(20px) scale(0.95)}to{opacity:1;transform:none}}</style>
+
+</div>
+</body>
+</html>

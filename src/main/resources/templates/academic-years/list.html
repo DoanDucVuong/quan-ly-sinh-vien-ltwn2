@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Năm học</title>
+    <link rel="stylesheet" th:href="@{/css/students.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="navbar-brand">🎓 StudentMS</a>
+    <div class="nav-links">
+        <a href="/students" class="nav-link">Sinh viên</a>
+        <a href="/student-classes" class="nav-link">Lớp hành chính</a>
+        <a href="/departments" class="nav-link">Khoa</a>
+        <a href="/majors" class="nav-link">Ngành</a>
+        <a href="/academic-years" class="nav-link active">Năm học</a>
+        <a href="/training-programs" class="nav-link">Chương trình</a>
+    </div>
+</nav>
+
+<div class="page-wrapper">
+    <div class="page-header fade-in">
+        <div class="page-title">📅 Danh sách Năm học / Khóa học</div>
+    </div>
+
+    <div th:if="${successMsg}" class="alert alert-success fade-in" th:text="${successMsg}"></div>
+    <div th:if="${errorMsg}" class="alert alert-danger fade-in" th:text="${errorMsg}"></div>
+
+    <div class="toolbar fade-in">
+        <form th:action="@{/academic-years}" method="get" style="display:flex;gap:.5rem;flex:1">
+            <input type="text" name="keyword" th:value="${keyword}" class="form-control" placeholder="Tìm theo tên hoặc mã..." style="max-width:300px">
+            <button type="submit" class="btn btn-secondary"><i class="bi bi-search"></i></button>
+        </form>
+        <a href="/academic-years/create" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Thêm năm học mới</a>
+    </div>
+
+    <div class="card fade-in">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Mã khóa</th>
+                    <th>Tên hiển thị</th>
+                    <th>Năm bắt đầu</th>
+                    <th>Năm kết thúc</th>
+                    <th style="text-align:center">Thao tác</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="y, stat : ${years}">
+                    <td th:text="${currentPage * pageSize + stat.count}"></td>
+                    <td><code th:text="${y.code}"></code></td>
+                    <td th:text="${y.name}" style="font-weight:500"></td>
+                    <td th:text="${y.startYear}"></td>
+                    <td th:text="${y.endYear}"></td>
+                    <td style="text-align:center">
+                        <div style="display:flex;gap:.5rem;justify-content:center">
+                            <a th:href="@{/academic-years/{id}/edit(id=${y.id})}" class="btn btn-secondary btn-sm btn-icon"><i class="bi bi-pencil"></i></a>
+                            <form th:action="@{/academic-years/{id}/delete(id=${y.id})}" method="post" onsubmit="return confirm('Xóa năm học này?')">
+                                <button type="submit" class="btn btn-danger btn-sm btn-icon"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

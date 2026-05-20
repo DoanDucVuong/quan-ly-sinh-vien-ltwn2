@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(title, activeMenu, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' - MISA EMIS'">MISA EMIS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/students.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #f4f6f9; color: #111827; }
+
+        /* App Shell */
+        .app-shell { display: flex; height: 100vh; overflow: hidden; }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 240px;
+            flex-shrink: 0;
+            background: #fff;
+            border-right: 1px solid #eef0f3;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 1.25rem 1rem;
+            border-bottom: 1px solid #f3f4f6;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            background: #fff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1f9c64;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border: 1px solid #eef0f3;
+        }
+
+        .brand-text { font-size: 0.95rem; font-weight: 800; color: #1f9c64; letter-spacing: -0.01em; line-height: 1.2; }
+        .brand-sub { font-size: 0.75rem; color: #6b7280; font-weight: 600; margin-top: 1px; }
+
+        .sidebar-section-label {
+            padding: 1.25rem 1.25rem 0.35rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.65rem 1.25rem;
+            margin: 0.1rem 0.75rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+            transition: all 0.15s;
+        }
+        .nav-item:hover { background: #f0fdf4; color: #15803d; }
+        .nav-item.active { background: linear-gradient(135deg, #1f9c64, #16a34a); color: #fff; font-weight: 700; box-shadow: 0 4px 12px rgba(31,156,100,0.25); }
+        .nav-item.active i { color: #fff; opacity: 0.9; }
+        .nav-item i { font-size: 1rem; width: 20px; text-align: center; color: #9ca3af; }
+        .nav-item.active i { color: #fff; }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 1rem 1.25rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        /* ===== MAIN ===== */
+        .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+        /* ===== TOP HEADER ===== */
+        .top-bar {
+            height: 58px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #eef0f3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.75rem;
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .top-bar-tabs { display: flex; gap: 0; }
+        .top-tab {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #9ca3af;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .top-tab.active { color: #1f9c64; border-bottom-color: #1f9c64; }
+
+        .top-bar-actions { display: flex; align-items: center; gap: 0.75rem; }
+        .icon-btn {
+            width: 36px; height: 36px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 9px; background: #f9fafb; border: 1px solid #e5e7eb;
+            color: #6b7280; cursor: pointer; font-size: 1rem; transition: all 0.15s;
+        }
+        .icon-btn:hover { background: #f0f0f0; }
+
+        .user-avatar {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, #1f9c64, #10b981);
+            color: #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.9rem; cursor: pointer;
+        }
+
+        /* ===== CONTENT ===== */
+        .content-area { flex: 1; overflow-y: auto; padding: 1.5rem 1.75rem; }
+
+        /* ===== ALERT BANNERS ===== */
+        .alert-success {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.9rem 1.25rem; border-radius: 12px;
+            background: #f0fdf4; border: 1.5px solid #86efac;
+            color: #15803d; font-weight: 600; font-size: 0.875rem;
+            margin-bottom: 1.25rem;
+            animation: slideDown 0.3s ease;
+        }
+        .alert-error {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.9rem 1.25rem; border-radius: 12px;
+            background: #fef2f2; border: 1.5px solid #fca5a5;
+            color: #dc2626; font-weight: 600; font-size: 0.875rem;
+            margin-bottom: 1.25rem;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== LEGACY COMPAT ===== */
+        .main-layout { width: 100%; }
+        .student-list-container { width: 100%; }
+        .form-overlay { padding: 1.5rem 0; }
+    </style>
+</head>
+<body>
+<div class="app-shell">
+
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <a href="/students" class="sidebar-brand">
+            <img th:src="@{/img/donga_logo.png}" alt="UDA Logo" style="height: 40px; width: auto; flex-shrink: 0;">
+            <div>
+                <div class="brand-text">ĐẠI HỌC ĐÔNG Á</div>
+                <div class="brand-sub">Hệ thống quản lý</div>
+            </div>
+        </a>
+
+        <div style="padding: 0.75rem 0;">
+            <div class="sidebar-section-label">Quản lý</div>
+
+            <a href="/students" class="nav-item" th:classappend="${activeMenu == 'students' ? ' active' : ''}">
+                <i class="bi bi-people"></i> <span>Học sinh</span>
+            </a>
+            <a href="/student-classes" class="nav-item" th:classappend="${activeMenu == 'classes' ? ' active' : ''}">
+                <i class="bi bi-building"></i> <span>Lớp hành chính</span>
+            </a>
+            <a href="/student-classe-sections" class="nav-item" th:classappend="${activeMenu == 'sections' ? ' active' : ''}">
+                <i class="bi bi-grid-3x3-gap"></i> <span>Phân lớp HP</span>
+            </a>
+            <a href="/advisor-class-sections" class="nav-item" th:classappend="${activeMenu == 'advisors' ? ' active' : ''}">
+                <i class="bi bi-person-workspace"></i> <span>Cố vấn lớp</span>
+            </a>
+            <a href="/student-status" class="nav-item" th:classappend="${activeMenu == 'status' ? ' active' : ''}">
+                <i class="bi bi-clipboard2-check"></i> <span>Trạng thái SV</span>
+            </a>
+
+            <div class="sidebar-section-label" style="margin-top: 0.75rem;">Danh mục</div>
+
+            <a href="/departments" class="nav-item" th:classappend="${activeMenu == 'departments' ? ' active' : ''}">
+                <i class="bi bi-diagram-3"></i> <span>Khoa/Phòng</span>
+            </a>
+            <a href="/majors" class="nav-item" th:classappend="${activeMenu == 'majors' ? ' active' : ''}">
+                <i class="bi bi-journal-bookmark"></i> <span>Ngành học</span>
+            </a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="nav-item" style="cursor:pointer;color:#9ca3af;">
+                <i class="bi bi-chevron-bar-left"></i> <span>Thu gọn</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN ===== -->
+    <div class="main-area">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <div class="top-bar-tabs">
+                <div class="top-tab active" th:text="${title}">Danh sách</div>
+                <div class="top-tab">Báo cáo</div>
+            </div>
+            <div class="top-bar-actions">
+                <div class="icon-btn" title="Thông báo"><i class="bi bi-bell"></i></div>
+                <div class="icon-btn" title="Trợ giúp"><i class="bi bi-question-circle"></i></div>
+                <div style="width:1px;height:22px;background:#e5e7eb;"></div>
+                <div class="user-avatar">A</div>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <main class="content-area">
+            <!-- Alerts -->
+            <div th:if="${successMsg}" class="alert-success">
+                <i class="bi bi-check-circle-fill" style="font-size:1.1rem;flex-shrink:0;"></i>
+                <span th:text="${successMsg}"></span>
+            </div>
+            <div th:if="${errorMsg}" class="alert-error">
+                <i class="bi bi-x-circle-fill" style="font-size:1.1rem;flex-shrink:0;"></i>
+                <span th:text="${errorMsg}"></span>
+            </div>
+
+            <div th:replace="${content}"></div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit} ? 'Chỉnh sửa Năm học' : 'Thêm Năm học mới'"></title>
+    <link rel="stylesheet" th:href="@{/css/students.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="navbar-brand">🎓 StudentMS</a>
+</nav>
+
+<div class="page-wrapper">
+    <div class="page-header fade-in">
+        <div class="page-title" th:text="${isEdit} ? '✏️ Chỉnh sửa Năm học' : '➕ Thêm Năm học mới'"></div>
+    </div>
+
+    <div class="card fade-in">
+        <form th:action="${isEdit} ? @{/academic-years/{id}/edit(id=${yearId})} : @{/academic-years/create}" 
+              method="post" th:object="${yearReq}">
+            
+            <div class="form-section">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Mã khóa *</label>
+                        <input type="text" th:field="*{code}" class="form-control" th:readonly="${isEdit}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tên hiển thị *</label>
+                        <input type="text" th:field="*{name}" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Năm bắt đầu</label>
+                        <input type="number" th:field="*{startYear}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Năm kết thúc</label>
+                        <input type="number" th:field="*{endYear}" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                <a href="/academic-years" class="btn btn-secondary">Hủy bỏ</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

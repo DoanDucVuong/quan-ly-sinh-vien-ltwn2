@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout('Khoa/Phòng', 'departments', ~{:: .main-layout})}">
+<body>
+<div class="main-layout">
+<div style="width:100%;padding:0;">
+
+  <!-- Toolbar -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+    <form method="get" action="/departments" style="display:flex;gap:0.5rem;align-items:center;">
+      <div style="position:relative;">
+        <i class="bi bi-search" style="position:absolute;left:0.9rem;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:0.85rem;pointer-events:none;"></i>
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm tên hoặc mã khoa..."
+               style="padding:0.6rem 1rem 0.6rem 2.4rem;width:280px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;font-family:inherit;transition:border-color 0.2s;"
+               onfocus="this.style.borderColor='#1f9c64'" onblur="this.style.borderColor='#e5e7eb'">
+      </div>
+      <button type="submit" style="padding:0.6rem 1.1rem;background:#f3f4f6;color:#374151;border:1.5px solid #e5e7eb;border-radius:10px;font-weight:600;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;gap:0.4rem;"
+              onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">
+        <i class="bi bi-search"></i> Tìm kiếm
+      </button>
+    </form>
+    <a href="/departments/create"
+       style="display:flex;align-items:center;gap:0.5rem;padding:0.65rem 1.4rem;background:linear-gradient(135deg,#1f9c64,#16a34a);color:#fff;border-radius:10px;text-decoration:none;font-weight:700;font-size:0.9rem;box-shadow:0 4px 12px rgba(31,156,100,0.3);transition:all 0.2s;"
+       onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'">
+      <i class="bi bi-plus-circle-fill"></i> Thêm khoa mới
+    </a>
+  </div>
+
+  <!-- Stats -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;">
+    <div style="background:#fff;padding:1.25rem;border-radius:14px;border:1px solid #f0f0f0;display:flex;align-items:center;gap:1rem;box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+      <div style="width:48px;height:48px;background:linear-gradient(135deg,#e9f5ef,#d1fae5);color:#059669;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">
+        <i class="bi bi-diagram-3-fill"></i>
+      </div>
+      <div>
+        <div style="font-size:1.75rem;font-weight:800;color:#111827;line-height:1;" th:text="${totalElements}">0</div>
+        <div style="font-size:0.8rem;color:#9ca3af;font-weight:500;margin-top:3px;">Tổng số khoa</div>
+      </div>
+    </div>
+    <div style="background:#fff;padding:1.25rem;border-radius:14px;border:1px solid #f0f0f0;display:flex;align-items:center;gap:1rem;box-shadow:0 1px 4px rgba(0,0,0,0.03);">
+      <div style="width:48px;height:48px;background:linear-gradient(135deg,#eff6ff,#dbeafe);color:#2563eb;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">
+        <i class="bi bi-check2-circle"></i>
+      </div>
+      <div>
+        <div style="font-size:1.75rem;font-weight:800;color:#111827;line-height:1;" th:text="${totalElements}">0</div>
+        <div style="font-size:0.8rem;color:#9ca3af;font-weight:500;margin-top:3px;">Đang hoạt động</div>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#1f9c64,#10b981);padding:1.25rem;border-radius:14px;display:flex;align-items:center;gap:1rem;box-shadow:0 4px 16px rgba(31,156,100,0.25);">
+      <div style="width:48px;height:48px;background:rgba(255,255,255,0.2);color:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;">
+        <i class="bi bi-journal-richtext"></i>
+      </div>
+      <div>
+        <div style="font-size:1rem;font-weight:700;color:#fff;line-height:1.3;">Quản lý</div>
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.8);margin-top:3px;">Khoa/Phòng ban</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div style="background:#fff;border-radius:16px;border:1px solid #f0f0f0;overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,0.04);">
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="background:linear-gradient(90deg,#f8fffe,#f0fdf4);border-bottom:2px solid #e5e7eb;">
+            <th style="padding:1rem 1.25rem;text-align:left;font-size:0.72rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;width:50px;">#</th>
+            <th style="padding:1rem 1.25rem;text-align:left;font-size:0.72rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;">Mã khoa</th>
+            <th style="padding:1rem 1.25rem;text-align:left;font-size:0.72rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;">Tên khoa/phòng</th>
+            <th style="padding:1rem 1.25rem;text-align:left;font-size:0.72rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;">Mô tả</th>
+            <th style="padding:1rem 1.25rem;text-align:center;font-size:0.72rem;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;width:110px;">Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:if="${departments.isEmpty()}">
+            <td colspan="5" style="text-align:center;padding:5rem 2rem;">
+              <i class="bi bi-diagram-3" style="font-size:3.5rem;color:#d1d5db;display:block;margin-bottom:1rem;"></i>
+              <div style="color:#6b7280;font-weight:600;">Chưa có dữ liệu khoa/phòng</div>
+            </td>
+          </tr>
+          <tr th:each="dept, stat : ${departments}"
+              style="border-bottom:1px solid #f9fafb;transition:background 0.15s;"
+              onmouseover="this.style.background='#f8fffe'" onmouseout="this.style.background='transparent'">
+            <td style="padding:1rem 1.25rem;color:#d1d5db;font-size:0.85rem;font-weight:500;" th:text="${currentPage * pageSize + stat.count}"></td>
+            <td style="padding:1rem 1.25rem;">
+              <span th:text="${dept.code}"
+                    style="background:#f0fdf4;color:#15803d;padding:4px 12px;border-radius:8px;font-weight:700;font-size:0.8rem;font-family:'Courier New',monospace;letter-spacing:0.04em;border:1px solid #bbf7d0;"></span>
+            </td>
+            <td style="padding:1rem 1.25rem;">
+              <div style="display:flex;align-items:center;gap:0.75rem;">
+                <div style="width:38px;height:38px;background:linear-gradient(135deg,#e9f5ef,#d1fae5);color:#059669;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">
+                  <i class="bi bi-diagram-3"></i>
+                </div>
+                <div th:text="${dept.name}" style="font-weight:700;color:#111827;font-size:0.95rem;"></div>
+              </div>
+            </td>
+            <td style="padding:1rem 1.25rem;color:#6b7280;font-size:0.85rem;" th:text="${dept.description ?: '—'}"></td>
+            <td style="padding:1rem 1.25rem;text-align:center;">
+              <div style="display:flex;gap:0.4rem;justify-content:center;">
+                <a th:href="@{/departments/{id}/edit(id=${dept.id})}"
+                   style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#f3f4f6;color:#6b7280;text-decoration:none;font-size:0.9rem;transition:all 0.15s;border:1px solid #e5e7eb;"
+                   title="Sửa" onmouseover="this.style.background='#fef9c3';this.style.color='#854d0e'" onmouseout="this.style.background='#f3f4f6';this.style.color='#6b7280'">
+                  <i class="bi bi-pencil-square"></i>
+                </a>
+                <button type="button" th:attr="onclick='openModal(this)',data-id=${dept.id},data-name=${dept.name}"
+                        style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#f3f4f6;color:#6b7280;border:1px solid #e5e7eb;cursor:pointer;font-size:0.9rem;transition:all 0.15s;"
+                        title="Xóa" onmouseover="this.style.background='#fee2e2';this.style.color='#dc2626'" onmouseout="this.style.background='#f3f4f6';this.style.color='#6b7280'">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div th:if="${totalPages > 1}" style="padding:1rem 1.5rem;border-top:1px solid #f3f4f6;display:flex;justify-content:space-between;align-items:center;background:#fafafa;">
+      <span style="font-size:0.85rem;color:#6b7280;">Tổng <strong style="color:#111827;" th:text="${totalElements}"></strong> khoa · Trang <strong style="color:#111827;" th:text="${currentPage + 1}"></strong>/<strong style="color:#111827;" th:text="${totalPages}"></strong></span>
+      <div style="display:flex;gap:0.3rem;">
+        <a th:href="@{/departments(page=${currentPage - 1},keyword=${keyword})}" th:if="${currentPage > 0}" style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid #e5e7eb;background:#fff;color:#6b7280;text-decoration:none;font-size:0.8rem;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='#fff'"><i class="bi bi-chevron-left"></i></a>
+        <a th:href="@{/departments(page=${currentPage + 1},keyword=${keyword})}" th:if="${currentPage + 1 < totalPages}" style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid #e5e7eb;background:#fff;color:#6b7280;text-decoration:none;font-size:0.8rem;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='#fff'"><i class="bi bi-chevron-right"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div id="delModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:2rem;max-width:420px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.2);animation:slideUp 0.25s ease;">
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="width:64px;height:64px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2rem;color:#dc2626;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+      <h3 style="font-size:1.2rem;font-weight:700;color:#111827;margin-bottom:0.5rem;">Xác nhận xóa</h3>
+      <p style="color:#6b7280;font-size:0.9rem;">Bạn muốn xóa khoa/phòng</p>
+      <p><strong id="delName" style="color:#dc2626;"></strong></p>
+    </div>
+    <div style="display:flex;gap:0.75rem;">
+      <button onclick="closeModal()" style="flex:1;padding:0.75rem;border-radius:10px;border:1.5px solid #e5e7eb;background:#fff;color:#374151;font-weight:600;cursor:pointer;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='#fff'">Hủy bỏ</button>
+      <form id="delForm" method="post" style="flex:1;">
+        <button type="submit" style="width:100%;padding:0.75rem;border-radius:10px;background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;font-weight:700;border:none;cursor:pointer;box-shadow:0 4px 12px rgba(220,38,38,0.3);"><i class="bi bi-trash3"></i> Xóa</button>
+      </form>
+    </div>
+  </div>
+</div>
+<style>@keyframes slideUp{from{opacity:0;transform:translateY(20px) scale(0.95)}to{opacity:1;transform:none}}</style>
+<script>
+function openModal(b){document.getElementById('delName').textContent=b.dataset.name;document.getElementById('delForm').action='/departments/'+b.dataset.id+'/delete';document.getElementById('delModal').style.display='flex';}
+function closeModal(){document.getElementById('delModal').style.display='none';}
+document.getElementById('delModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+</script>
+
+</div>
+</body>
+</html>

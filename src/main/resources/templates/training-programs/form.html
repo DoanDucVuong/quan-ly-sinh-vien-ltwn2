@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isEdit} ? 'Chỉnh sửa Chương trình' : 'Thêm Chương trình mới'"></title>
+    <link rel="stylesheet" th:href="@{/css/students.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+<body>
+<nav class="navbar">
+    <a href="/" class="navbar-brand">🎓 StudentMS</a>
+</nav>
+
+<div class="page-wrapper">
+    <div class="page-header fade-in">
+        <div class="page-title" th:text="${isEdit} ? '✏️ Chỉnh sửa Chương trình' : '➕ Thêm Chương trình mới'"></div>
+    </div>
+
+    <div class="card fade-in">
+        <form th:action="${isEdit} ? @{/training-programs/{id}/edit(id=${progId})} : @{/training-programs/create}" 
+              method="post" th:object="${progReq}">
+            
+            <div class="form-section">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Mã chương trình *</label>
+                        <input type="text" th:field="*{code}" class="form-control" th:readonly="${isEdit}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tên chương trình *</label>
+                        <input type="text" th:field="*{name}" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ngành học *</label>
+                        <select th:field="*{majorId}" class="form-control" required>
+                            <option value="">-- Chọn ngành --</option>
+                            <option th:each="m : ${majors}" th:value="${m.id}" th:text="${m.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Hệ đào tạo</label>
+                        <select th:field="*{degreeLevel}" class="form-control">
+                            <option value="Đại học">Đại học</option>
+                            <option value="Cao đẳng">Cao đẳng</option>
+                            <option value="Sau đại học">Sau đại học</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Lưu thông tin</button>
+                <a href="/training-programs" class="btn btn-secondary">Hủy bỏ</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
