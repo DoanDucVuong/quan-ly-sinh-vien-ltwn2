@@ -16,13 +16,9 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
 
     Page<Student> findByIsActiveTrue(Pageable pageable);
 
-    @Query(value = "SELECT s.* FROM students s WHERE s.is_active = 1 AND " +
-           "(s.full_name COLLATE Latin1_General_CI_AI LIKE '%' + :kw + '%' OR " +
-           "s.code COLLATE Latin1_General_CI_AI LIKE '%' + :kw + '%')",
-           countQuery = "SELECT COUNT(*) FROM students s WHERE s.is_active = 1 AND " +
-           "(s.full_name COLLATE Latin1_General_CI_AI LIKE '%' + :kw + '%' OR " +
-           "s.code COLLATE Latin1_General_CI_AI LIKE '%' + :kw + '%')",
-           nativeQuery = true)
+    @Query("SELECT s FROM Student s WHERE s.isActive = true AND " +
+           "(LOWER(s.fullName) LIKE LOWER(CONCAT('%', :kw, '%')) OR " +
+           "LOWER(s.code) LIKE LOWER(CONCAT('%', :kw, '%')))")
     Page<Student> searchActive(@Param("kw") String keyword, Pageable pageable);
 
     Optional<Student> findByIdAndIsActiveTrue(UUID id);
